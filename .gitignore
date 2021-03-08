@@ -1,3 +1,7 @@
+# 推送到GitHub时要忽略的文件
+.idea/
+*.iml
+
 # Compiled class file
 *.class
 
