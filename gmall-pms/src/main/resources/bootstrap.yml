@@ -1,0 +1,19 @@
+# nacos注册中心应用名
+spring:
+  application:
+    name: pms-service
+  # nacos配置中心
+  cloud:
+    nacos:
+      # nacos配置中心地址
+      discovery:
+        server-addr: localhost:8848
+      config:
+        # nacos配置中心的命名空间ID
+        namespace: 79e83c8e-4784-4d87-a5f8-872b247c0bfc
+        # nacos配置中心的分组名
+        group: dev
+        # nacos配置中心的配置内容的数据格式，也就是文件的后缀，目前只支持 properties 和 yml 类型，默认是properties
+        file-extension: yml
+
+

@@ -1,0 +1,59 @@
+# \u7AEF\u53E3\u53F7
+server:
+  port: 18081
+
+
+# nacos\u6CE8\u518C\u4E2D\u5FC3\u5730\u5740
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    # sentinel\u7684\u5BA2\u6237\u7AEF\u5730\u5740
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        # sentinel\u7AEF\u53E3\u53F7
+        port: 8719
+  #\u6307\u5B9A\u6570\u636E\u63D0\u4EA4\u5230\u7684zipkin\u670D\u52A1\u7AEF\u63A5\u6536
+  zipkin:
+    base-url: http://localhost:9411
+    discovery-client-enabled: false
+    sender:
+      type: web
+  #\u94FE\u8DEF\u8FFD\u8E2A
+  sleuth:
+    sampler:
+      #\u91C7\u6837\u7387\u503C\u4ECB\u4E8E0~1\u4E4B\u95F4\uFF0C1\u8868\u793A100%\uFF0C\u5168\u90E8\u91C7\u6837
+      probability: 1
+  #\u6570\u636E\u5E93
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    #\u8FDE\u63A5\u7684\u662F\u865A\u62DF\u673A\u4E2D\u7684\u6570\u636E\u5E93
+    url: jdbc:mysql://192.168.86.168:3306/guli_pms
+  #\u8FDE\u63A5\u7684\u662F\u865A\u62DF\u673A\u4E2D\u7684redis
+  redis:
+    host: 192.168.86.168
+    port: 6379
+
+
+#feign\u6574\u5408sentinel
+feign:
+  sentinel:
+    enabled: true
+#mybatis-plus
+mybatis-plus:
+  #mybatis-plus\u7684xml\u6620\u5C04\u6587\u4EF6\u5730\u5740
+  #/\u4EE3\u8868\u8DEF\u5F84\uFF0C\u4E0D\u80FD\u4F7F\u7528\u201C.\u201D\uFF0C**\u662F\u4EE3\u8868pms\u7684\u6240\u6709\u76EE\u5F55\u53CA\u5176\u5B50\u76EE\u5F55
+  mapper-locations: classpath:mapper/pms/**/*.xml
+  #mybatis-plus\u7684\u522B\u540D\u626B\u63CF\uFF0C\u5982\u679C\u4E0D\u52A0\u522B\u540D\u626B\u63CF\uFF0C\u5728xml\u6620\u5C04\u6587\u4EF6\u4E2D\u4F7F\u7528\u5B9E\u4F53\u7C7B\u5BF9\u8C61\u65F6\uFF0C\u9700\u8981\u5199\u5B9E\u4F53\u7C7B\u7684\u5168\u8DEF\u5F84
+  #\u52A0\u4E86\u522B\u540D\u626B\u63CF\u540E\uFF0C\u53EF\u4EE5\u626B\u63CF\u5B9E\u4F53\u7C7B\u7684\u8DEF\u5F84\uFF0C\u7136\u540E\u4F1A\u8D77\u4E2A\u522B\u540D\uFF0C\u4F7F\u7528\u522B\u540D\u5373\u53EF
+  type-aliases-package: com.atguigu.gmall.pms.entity
+  #id\u7B56\u7565\uFF0Cmybatis-plus\u9ED8\u8BA4\u662F\u5206\u5E03\u5F0Fid\u3010\u591A\u6570\u636E\u5E93\u3011\uFF0C\u6B64\u5904\u4F7F\u7528\u6570\u636E\u5E93ID\u81EA\u589E\u7B56\u7565\u3010\u5355\u6570\u636E\u5E93\u3011auto
+  global-config:
+    db-config:
+      id-type: auto
+
+

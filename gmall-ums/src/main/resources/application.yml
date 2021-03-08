@@ -1,0 +1,55 @@
+# 端口号
+server:
+  port: 18084
+# nacos注册中心地址
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    # sentinel的客户端地址
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        # sentinel端口号
+        port: 8719
+  #指定数据提交到的zipkin服务端接收
+  zipkin:
+    base-url: http://localhost:9411
+    discovery-client-enabled: false
+    sender:
+      type: web
+  #链路追踪
+  sleuth:
+    sampler:
+      #采样率值介于0~1之间，1表示100%，全部采样
+      probability: 1
+  #数据库
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    #连接的是虚拟机中的数据库
+    url: jdbc:mysql://192.168.86.168:3306/guli_ums
+  #连接的是虚拟机中的redis
+  redis:
+    host: 192.168.86.168
+    port: 6379
+#feign整合sentinel
+feign:
+  sentinel:
+    enabled: true
+#mybatis-plus
+mybatis-plus:
+  #mybatis-plus的xml映射文件地址
+  #/代表路径，不能使用“.”，**是代表pms的所有目录及其子目录
+  mapper-locations: classpath:mapper/ums/**/*.xml
+  #mybatis-plus的别名扫描，如果不加别名扫描，在xml映射文件中使用实体类对象时，需要写实体类的全路径
+  #加了别名扫描后，可以扫描实体类的路径，然后会起个别名，使用别名即可
+  type-aliases-package: com.atguigu.gmall.ums.entity
+  #id策略，mybatis-plus默认是分布式id【多数据库】，此处使用数据库ID自增策略【单数据库】auto
+  global-config:
+    db-config:
+      id-type: auto
+
+
