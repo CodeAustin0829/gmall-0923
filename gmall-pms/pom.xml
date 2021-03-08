@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <!--
+        创建springboot工程，默认是以spring-boot-starter-parent为父工程
+        需要改为gmall-0923为父工程
+        gmall-0923再以spring-boot-starter-parent为父工程
+        此时
+        gmall-pms已经以gmall-0923为父工程
+        （1）删除<dependencyManagement>
+        需要把pms工程中的springCloud依赖管理去掉，因为它已经父工程进行管理了
+        （2）删除<properties>
+        版本号也已经被父工程进行管理
+        -->
+        <groupId>com.atguigu</groupId>
+        <artifactId>gmall-0923</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <groupId>com.atguigu</groupId>
+    <artifactId>gmall-pms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>gmall-pms</name>
+    <description>谷粒商城商品管理系统</description>
+    <!--
+    版本号已经被父工程进行管理
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>2020.0.1</spring-cloud.version>
+    </properties>
+    -->
+    <dependencies>
+        <!-- （1）引入gmall-common的依赖,所有的微服务都依赖于gmall-common -->
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--
+        （2）springboot提供的依赖：
+        引入mybatis-plus的场景启动器
+        -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!--
+        （3）springboot提供的依赖：
+        引入mysql的驱动
+        -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!--
+        （4）springboot提供的依赖：
+        其中提供了SpringMVC、Spring的必要组件，
+        用来开发web应用
+        添加mysql驱动依赖、mybatis-plus场景启动器
+        就完成了SSM的依赖的引入了
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--
+        （5）springboot提供的依赖：
+        redis的依赖
+        -->
+
+        <!--
+        （6）springcloud提供的依赖：
+        Nacos注册中心依赖
+        -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!--
+        （7）springcloud提供的依赖：
+        Nacos配置中心依赖
+        -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!--
+        （7）springcloud提供的依赖：
+        sentinel的依赖
+        -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <!--
+        （8）springcloud提供的依赖：
+        openfeign的依赖
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--
+        （9）springcloud提供的依赖：
+        zipkin的依赖
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <!--
+    springCloud依赖管理已经在父工程进行管理
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    -->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
