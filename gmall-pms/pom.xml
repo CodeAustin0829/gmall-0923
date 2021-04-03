@@ -31,6 +31,11 @@
     </properties>
     -->
     <dependencies>
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-sms-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- （1）引入gmall-common的依赖,所有的微服务都依赖于gmall-common -->
         <dependency>
             <groupId>com.atguigu</groupId>
@@ -96,7 +101,7 @@
         </dependency>
 
         <!--
-        （7）springcloud提供的依赖：
+        （8）springcloud提供的依赖：
         sentinel的依赖
         -->
         <dependency>
@@ -105,7 +110,7 @@
         </dependency>
 
         <!--
-        （8）springcloud提供的依赖：
+        （9）springcloud提供的依赖：
         openfeign的依赖
         -->
         <dependency>
@@ -114,12 +119,51 @@
         </dependency>
 
         <!--
-        （9）springcloud提供的依赖：
+        （10）springcloud提供的依赖：
         zipkin的依赖
         -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
+        <!--
+        （11）阿里云OSS依赖
+        -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!--
+        （12）分布式事务seata依赖
+        -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-seata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <!--
+        （13）引入gmall-pms-interface，将实体类entity引入进来
+        -->
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-pms-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--
+        （14）引入RabiitMQ的依赖
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
         <dependency>

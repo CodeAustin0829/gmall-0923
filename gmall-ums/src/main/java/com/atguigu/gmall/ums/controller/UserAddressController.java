@@ -1,23 +1,17 @@
 package com.atguigu.gmall.ums.controller;
 
-import java.util.List;
-
+import com.atguigu.gmall.common.bean.PageParamVo;
+import com.atguigu.gmall.common.bean.PageResultVo;
+import com.atguigu.gmall.common.bean.ResponseVo;
+import com.atguigu.gmall.ums.entity.UserAddressEntity;
+import com.atguigu.gmall.ums.service.UserAddressService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.atguigu.gmall.ums.entity.UserAddressEntity;
-import com.atguigu.gmall.ums.service.UserAddressService;
-import com.atguigu.gmall.common.bean.PageResultVo;
-import com.atguigu.gmall.common.bean.ResponseVo;
-import com.atguigu.gmall.common.bean.PageParamVo;
+import java.util.List;
 
 /**
  * 收货地址表
@@ -35,24 +29,33 @@ public class UserAddressController {
     private UserAddressService userAddressService;
 
     /**
+     * 订单确认页所需接口：根据用户id，查询收货地址
+     */
+    @GetMapping("user/{userId}")
+    public ResponseVo<List<UserAddressEntity>> queryAddressesByUserId(@PathVariable("userId") Long userId) {
+        List<UserAddressEntity> userAddressEntities =
+                this.userAddressService.list(new QueryWrapper<UserAddressEntity>().eq("user_id", userId));
+        return ResponseVo.ok(userAddressEntities);
+    }
+
+    /**
      * 列表
      */
     @GetMapping
     @ApiOperation("分页查询")
-    public ResponseVo<PageResultVo> queryUserAddressByPage(PageParamVo paramVo){
+    public ResponseVo<PageResultVo> queryUserAddressByPage(PageParamVo paramVo) {
         PageResultVo pageResultVo = userAddressService.queryPage(paramVo);
 
         return ResponseVo.ok(pageResultVo);
     }
-
 
     /**
      * 信息
      */
     @GetMapping("{id}")
     @ApiOperation("详情查询")
-    public ResponseVo<UserAddressEntity> queryUserAddressById(@PathVariable("id") Long id){
-		UserAddressEntity userAddress = userAddressService.getById(id);
+    public ResponseVo<UserAddressEntity> queryUserAddressById(@PathVariable("id") Long id) {
+        UserAddressEntity userAddress = userAddressService.getById(id);
 
         return ResponseVo.ok(userAddress);
     }
@@ -62,8 +65,8 @@ public class UserAddressController {
      */
     @PostMapping
     @ApiOperation("保存")
-    public ResponseVo<Object> save(@RequestBody UserAddressEntity userAddress){
-		userAddressService.save(userAddress);
+    public ResponseVo<Object> save(@RequestBody UserAddressEntity userAddress) {
+        userAddressService.save(userAddress);
 
         return ResponseVo.ok();
     }
@@ -73,8 +76,8 @@ public class UserAddressController {
      */
     @PostMapping("/update")
     @ApiOperation("修改")
-    public ResponseVo update(@RequestBody UserAddressEntity userAddress){
-		userAddressService.updateById(userAddress);
+    public ResponseVo update(@RequestBody UserAddressEntity userAddress) {
+        userAddressService.updateById(userAddress);
 
         return ResponseVo.ok();
     }
@@ -84,8 +87,8 @@ public class UserAddressController {
      */
     @PostMapping("/delete")
     @ApiOperation("删除")
-    public ResponseVo delete(@RequestBody List<Long> ids){
-		userAddressService.removeByIds(ids);
+    public ResponseVo delete(@RequestBody List<Long> ids) {
+        userAddressService.removeByIds(ids);
 
         return ResponseVo.ok();
     }

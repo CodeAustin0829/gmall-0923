@@ -6,9 +6,8 @@ spring:
   cloud:
     nacos:
       # nacos配置中心地址
-      discovery:
-        server-addr: localhost:8848
       config:
+        server-addr: localhost:8848
         # nacos配置中心的命名空间ID
         namespace: 946b979a-4778-40cf-9ec2-bce00295f901
         # nacos配置中心的分组名

@@ -1,0 +1,39 @@
+server:
+  port: 18089
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8179
+  zipkin:
+    base-url: http://localhost:9411/
+    sender:
+      type: web
+    discovery-client-enabled: false
+  sleuth:
+    sampler:
+      probability: 1
+  thymeleaf:
+    cache: false
+feign:
+  sentinel:
+    enabled: true
+# \u914D\u7F6E\u516C\u94A5\u548C\u79C1\u94A5
+auth:
+  jwt:
+    # \u516C\u94A5\u5730\u5740
+    pubKeyPath: D:\Developer_tools\repos\IdeaPros\gmall\rsa\rsa.pub
+    # \u79C1\u94A5\u5730\u5740
+    priKeyPath: D:\Developer_tools\repos\IdeaPros\gmall\rsa\rsa.pri
+    # \u76D0\uFF0C\u968F\u610F\u5B57\u7B26\uFF0C\u8D8A\u590D\u6742\u8D8A\u597D
+    secret: 30489ouerweljrLROE@#)(@$*343jlsdf
+    # cookie\u540D\u79F0
+    cookieName: GMALL-TOKEN
+    # \u8FC7\u671F\u65F6\u95F4\uFF0C\u5355\u4F4D\u5206\u949F
+    expire: 180
+    # \u7528\u6237\u6635\u79F0
+    unick: unick

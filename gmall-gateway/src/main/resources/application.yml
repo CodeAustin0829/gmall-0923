@@ -30,3 +30,46 @@ spring:
           uri: lb://wms-service
           predicates:
             - Path=/wms/**
+        - id: search-route
+          uri: lb://search-service
+          predicates:
+            - Host=search.gmall.com
+        - id: index-route1 # 首页的同步请求路由
+          uri: lb://index-service
+          predicates:
+            - Host=www.gmall.com, gmall.com
+          # - Path=/index/**  如果写在一个里面，他们的关系是and关系
+        - id: index-route2 # 首页的异步请求路由
+          uri: lb://index-service
+          predicates:
+            - Path=/index/**
+        - id: item-route1 # 商品详情页的同步请求路由
+          uri: lb://item-service
+          predicates:
+            - Host=item.gmall.com
+          filters:
+#            - AddResponseHeader=xxx,yyy # 在请求头会携带xxx,yyy
+#            - Auth=/toLogin.html,/login # 局部过滤器会拦截配置Auth的当前路由，也就是会拦截item.gmall.com
+            - Auth=/
+        - id: item-route2 # 商品详情页的异步请求路由
+          uri: lb://item-service
+          predicates:
+            - Path=/item/**
+        - id: auth-route
+          uri: lb://auth-service
+          predicates:
+            - Host=sso.gmall.com
+        - id: cart-route
+          uri: lb://cart-service
+          predicates:
+            - Host=cart.gmall.com
+        - id: order-route
+          uri: lb://order-service
+          predicates:
+            - Host=order.gmall.com
+          filters:
+            - Auth=/
+auth:
+  jwt:
+    pubKeyPath: D:\Developer_tools\repos\IdeaPros\gmall\rsa\rsa.pub # 公钥地址
+    cookieName: GMALL-TOKEN

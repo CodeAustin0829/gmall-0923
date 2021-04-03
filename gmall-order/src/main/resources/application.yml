@@ -1,0 +1,52 @@
+server:
+  port: 18092
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+  zipkin:
+    base-url: http://localhost:9411
+    discovery-client-enabled: false
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1
+  redis:
+    host: 192.168.86.168
+    port: 6379
+  rabbitmq:
+    # rabbitmq的地址，此处连接的是虚拟机的mq
+    host: 192.168.86.168
+    # rabbitmq的端口号
+    port: 5672
+    # rabbitmq管理控制台所创建的虚拟主机
+    virtual-host: /libifu
+    # rabbitmq管理控制台的登录用户名
+    username: libifu
+    # rabbitmq管理控制台的登录密码
+    password: 123456
+    listener:
+      # 解决消费堆积，使用多线程消费
+      # simple，默认，listener容器使用一个额外线程处理消息；direct，listener（监听器）容器直接使用主线程处理消息
+      type: simple
+      simple:
+        # ack自动确认，manual-手动  auto-自动（无异常直接确认，有异常无限重试） none-不重试
+        acknowledge-mode: manual
+        # 能者多劳，每次捕获一条消息
+        prefetch: 1
+        # 避免消息堆积，初始化多个消费者线程（一般是根据电脑的核数来设定）
+        concurrency: 4
+  thymeleaf:
+    cache: false
+feign:
+  sentinel:
+    enabled: true
+logging:
+  level:
+    com.atguigu.gmall: debug

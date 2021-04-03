@@ -1,0 +1,39 @@
+# 端口号
+server:
+  port: 18087
+
+# nacos注册中心地址
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    # sentinel的客户端地址
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        # sentinel端口号
+        port: 8719
+  #指定数据提交到的zipkin服务端接收
+  zipkin:
+    base-url: http://localhost:9411
+    discovery-client-enabled: false
+    sender:
+      type: web
+  #链路追踪
+  sleuth:
+    sampler:
+      #采样率值介于0~1之间，1表示100%，全部采样
+      probability: 1
+  #连接的是虚拟机中的redis
+  redis:
+    host: 192.168.86.168
+    port: 6379
+  # 关闭Thymeleaf的缓存，开发环境要关闭，因为会导致开发时修改页面不会立即被展现；生产环境要打开，提高性能
+  thymeleaf:
+    cache: false
+
+#feign整合sentinel
+feign:
+  sentinel:
+    enabled: true

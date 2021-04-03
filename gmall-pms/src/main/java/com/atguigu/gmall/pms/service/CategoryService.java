@@ -1,11 +1,12 @@
 package com.atguigu.gmall.pms.service;
 
+import com.atguigu.gmall.pms.entity.CategoryEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
-import com.atguigu.gmall.pms.entity.CategoryEntity;
 
-import java.util.Map;
+
+import java.util.List;
 
 /**
  * 商品三级分类
@@ -17,5 +18,20 @@ import java.util.Map;
 public interface CategoryService extends IService<CategoryEntity> {
 
     PageResultVo queryPage(PageParamVo paramVo);
+
+    /**
+     * 查询三级分类，结合接口文档来进行编写
+     */
+    List<CategoryEntity> queryCategoryByParentId(Long parentId);
+
+    /**
+     * 查询二级分类及其三级分类
+     */
+    List<CategoryEntity> queryLevel2CategoryWithSubsByPid(Long pid);
+
+    /**
+     * 商品详情页接口二：根据三级分类id查询一二三级分类
+     */
+    List<CategoryEntity> queryCategoriesByCid3(Long cid3);
 }
 

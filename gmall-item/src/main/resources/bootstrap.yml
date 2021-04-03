@@ -1,0 +1,11 @@
+# nacos注册中心应用名
+spring:
+  application:
+    name: item-service
+  # nacos配置中心
+  cloud:
+    nacos:
+      # nacos配置中心地址
+      config:
+        server-addr: localhost:8848
+

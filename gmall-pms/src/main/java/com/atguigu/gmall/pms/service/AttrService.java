@@ -1,11 +1,12 @@
 package com.atguigu.gmall.pms.service;
 
+import com.atguigu.gmall.pms.entity.AttrEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
-import com.atguigu.gmall.pms.entity.AttrEntity;
 
-import java.util.Map;
+
+import java.util.List;
 
 /**
  * 商品属性
@@ -17,5 +18,8 @@ import java.util.Map;
 public interface AttrService extends IService<AttrEntity> {
 
     PageResultVo queryPage(PageParamVo paramVo);
+
+    //查询分类下的规格参数，用来录入sku相关信息
+    List<AttrEntity> queryAttrByCIdOrTypeOrSearchType(Long cid, Integer type, Integer searchType);
 }
 

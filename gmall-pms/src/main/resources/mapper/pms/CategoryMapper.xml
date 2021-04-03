@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    (1)第一步：映射Mapper接口
+    <mapper namespace="接口全类名">
+    namespace的属性值，写接口的全类名，表示所映射的是哪个Mapper接口
+-->
 <mapper namespace="com.atguigu.gmall.pms.mapper.CategoryMapper">
 
+    <!--
+         (3)第三步：使用 resultMap="任意变量名" 进行映射
+         任意变量名可以随意取，一般是使用方法名+Map、方法名+ResultMap
+         .......................................................................
+         在<resultMap>标签中，做JavaBean映射
+         ① id的属性值，写resultMap的属性值，表示映射是查询List集合的哪个SQL
+         ② type的属性值，写要映射的JavaBean实体类的全类名
+         表示要将List中的每一个对象，封装到对应的JavaBean对象中
+         也就是Mapper接口中的方法返回值的全类名（是集合，就是集合里面的元素全类名）
+         由于在配置文件中开启了别名扫描，不用写全类名，即可扫描到
+         .......................................................................
+         autoMapping="true" 表示数据库表的字段和JavaBean的属性自动映射，前提是名称一致
+         但id一般采取手动映射的方式，提高查询性能
+         column：数据库表的字段
+         property：JavaBean的属性
+    -->
+    <resultMap id="CategoryMap" type="CategoryEntity" autoMapping="true">
+        <id column="id" property="id"/>
+        <!--
+            (4)第四步：
+            查询二级分类下的三级分类，也就是查询出三级分类数据
+            封装到CategoryEntity类下的属性中
+            private List<CategoryEntity> subs;
+            .........................................................
+            采取的是分步查询懒加载
+            property：集合字段的属性名，也就是subs
+            javaType：集合的类型，也就是List
+            ofType：集合中的泛型，也就是CategoryEntity
+            select：关联查询的statement的Id
+                    也就是"queryLevel2CategoryWithSubsByPid"
+                    因为三级分类也要使用statement里面的SQL语句来进行查询
+            column：给关联查询传递参数
+                    也就是将自己的父id传给statement的SQL语句进行查询
+            .........................................................
+            collection：一对多查询
+            association：一对一查询
+            由于二级分类下面有多个三级分类，是一对多的关系
+            使用collection来进行关联
+        -->
+        <collection property="subs" javaType="List" ofType="CategoryEntity" select="queryLevel2CategoryWithSubsByPid"
+                    column="id">
+        </collection>
+        <!--
+            (5)第五步：在测试用例CategoryMapperTest类中，进行测试
+        -->
+    </resultMap>
+
+
+    <!--
+        (2)第二步：映射接口中的方法
+        <select id="方法名" resultMap="任意变量名">
+        id的属性值，写方法名，表示所映射的是Mapper接口中的哪个方法
+        ...............................................................
+        正常的查询二级分类及其三级分类的SQL：
+        SELECT *
+        FROM pms_category t1
+        INNER JOIN pms_category t2
+        ON t1.`id` = t2.`parent_id`
+        WHERE t1.`parent_id` = 1;
+        ...............................................................
+        也就是当t1.`parent_id` = 1，查询出来的就是二级分类
+        等于0就是一级分类
+        再以查询出来的结果【二级分类表】，联上t2表
+        当t2的父id，等于二级分类表的id时，说明就是三级分类
+        ...............................................................
+        但是这样映射到JavaBean的属性时，由于两张的字段名称都一样
+        所以使用无法【autoMapping="true"】来完成自动映射
+        需要为t2的字段起别名，然后在一个字段一个字段的映射到JavaBean的属性中
+        ...............................................................
+        解决方法：采取分步查询懒加载的方式
+        也就是查询二级分类，使用的SQL语句是：
+        SELECT *
+        FROM pms_category
+        WHERE parent_id = #{id}
+        查询三级分类，SQL语句也是一样的，
+        只不过查询二级分类，传的parent_id是一级分类的id
+        而查询三级分类，传的parent_id是二级分类的id
+        ...............................................................
+        resultType：单表的结果集映射
+        resultMap：自定义结果集的封装
+    -->
+    <select id="queryLevel2CategoryWithSubsByPid" resultMap="CategoryMap">
+        SELECT *
+        FROM pms_category
+        WHERE parent_id = #{id}
+    </select>
 </mapper>

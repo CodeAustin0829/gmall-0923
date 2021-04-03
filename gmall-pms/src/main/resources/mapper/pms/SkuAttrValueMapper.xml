@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.gmall.pms.mapper.SkuAttrValueMapper">
 
+    <!--
+    原始的sql语句：
+    SELECT sku_id,GROUP_CONCAT(attr_value ORDER BY attr_id ASC) AS attrValues
+    FROM pms_sku_attr_value
+    WHERE `sku_id` in (1,2)
+    GROUP BY sku_id;
+    ............................................................................
+    WHERE 后面的语句使用动态Sql来实现
+    trim：是一个格式化的标记，可以完成set或者是where标记的功能
+    prefix：前缀
+    prefixoverrides：去掉第一个and或者是or
+    　　    suffix：后缀
+    suffixoverrides：去掉最后一个逗号（也可以是其他的标记）
+    collection="skuIdList" 表示Mapper方法传过来的指定的参数@Param("skuIds")
+    item="skuId"，表示遍历skuIds，取出每个skuId
+    separator=","，表示结果以逗号分隔
+    open="(" ，表示结果集前面使用“(”
+    close=")" ，表示结果集后面使用“)”
+    -->
+    <select id="querySaleAttrsMappingSkuIdBySkuIds" resultType="java.util.Map">
+        SELECT sku_id,GROUP_CONCAT(attr_value ORDER BY attr_id ASC) AS attrValues
+        FROM pms_sku_attr_value
+        <trim prefix="where" prefixOverrides="and|or" suffix="GROUP BY sku_id" suffixOverrides=",">
+            sku_id in
+            <foreach collection="skuIdList" item="skuId" separator="," open="(" close=")">
+                #{skuId}
+            </foreach>
+        </trim>
+    </select>
 </mapper>

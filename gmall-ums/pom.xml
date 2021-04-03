@@ -7,8 +7,6 @@
         创建springboot工程，默认是以spring-boot-starter-parent为父工程
         需要改为gmall-0923为父工程
         gmall-0923再以spring-boot-starter-parent为父工程
-        此时
-        gmall-pms已经以gmall-0923为父工程
         （1）删除<dependencyManagement>
         需要把pms工程中的springCloud依赖管理去掉，因为它已经父工程进行管理了
         （2）删除<properties>
@@ -25,6 +23,12 @@
     <description>谷粒商城用户管理系统</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-ums-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- （1）引入gmall-common的依赖,所有的微服务都依赖于gmall-common -->
         <dependency>
             <groupId>com.atguigu</groupId>

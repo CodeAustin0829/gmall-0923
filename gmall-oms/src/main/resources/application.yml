@@ -1,40 +1,43 @@
 # 端口号
 server:
   port: 18083
-# nacos注册中心地址
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-    # sentinel的客户端地址
-    sentinel:
-      transport:
-        dashboard: localhost:8080
-        # sentinel端口号
-        port: 8719
-  #指定数据提交到的zipkin服务端接收
-  zipkin:
-    base-url: http://localhost:9411
-    discovery-client-enabled: false
-    sender:
-      type: web
-  #链路追踪
-  sleuth:
-    sampler:
-      #采样率值介于0~1之间，1表示100%，全部采样
-      probability: 1
-  #数据库
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 123456
-    #连接的是虚拟机中的数据库
-    url: jdbc:mysql://192.168.86.168:3306/guli_oms
-  #连接的是虚拟机中的redis
-  redis:
-    host: 192.168.86.168
-    port: 6379
+
+#以下配置，提取到nacos配置中心
+## nacos注册中心地址
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    # sentinel的客户端地址
+#    sentinel:
+#      transport:
+#        dashboard: localhost:8080
+#        # sentinel端口号
+#        port: 8719
+#  #指定数据提交到的zipkin服务端接收
+#  zipkin:
+#    base-url: http://localhost:9411
+#    discovery-client-enabled: false
+#    sender:
+#      type: web
+#  #链路追踪
+#  sleuth:
+#    sampler:
+#      #采样率值介于0~1之间，1表示100%，全部采样
+#      probability: 1
+#  #数据库
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: 123456
+#    #连接的是虚拟机中的数据库
+#    url: jdbc:mysql://192.168.86.168:3306/guli_oms
+#  #连接的是虚拟机中的redis
+#  redis:
+#    host: 192.168.86.168
+#    port: 6379
+
 #feign整合sentinel
 feign:
   sentinel:

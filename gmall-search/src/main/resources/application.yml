@@ -1,0 +1,67 @@
+# \u7AEF\u53E3\u53F7
+server:
+  port: 18086
+
+##\u4EE5\u4E0B\u914D\u7F6E\uFF0C\u63D0\u53D6\u5230nacos\u914D\u7F6E\u4E2D\u5FC3
+## nacos\u6CE8\u518C\u4E2D\u5FC3\u5730\u5740
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    # sentinel\u7684\u5BA2\u6237\u7AEF\u5730\u5740
+#    sentinel:
+#      transport:
+#        dashboard: localhost:8080
+#        # sentinel\u7AEF\u53E3\u53F7
+#        port: 8719
+#  #\u6307\u5B9A\u6570\u636E\u63D0\u4EA4\u5230\u7684zipkin\u670D\u52A1\u7AEF\u63A5\u6536
+#  zipkin:
+#    base-url: http://localhost:9411
+#    discovery-client-enabled: false
+#    sender:
+#      type: web
+#  #\u94FE\u8DEF\u8FFD\u8E2A
+#  sleuth:
+#    sampler:
+#      #\u91C7\u6837\u7387\u503C\u4ECB\u4E8E0~1\u4E4B\u95F4\uFF0C1\u8868\u793A100%\uFF0C\u5168\u90E8\u91C7\u6837
+#      probability: 1
+#  #\u8FDE\u63A5\u865A\u62DF\u673A\u4E2DElasticSearch
+#  elasticsearch:
+#    rest:
+#      uris: http://192.168.86.168:9200
+
+# feign整合sentinel
+feign:
+  sentinel:
+    enabled: true
+spring:
+  # 返回数据给前端的时候，值为null的会被过滤掉
+  jackson:
+    default-property-inclusion: non_null
+  # 关闭Thymeleaf的缓存，开发环境要关闭，因为会导致开发时修改页面不会立即被展现；生产环境要打开，提高性能
+  thymeleaf:
+    cache: false
+  # Rabbit消费者者配置信息
+  rabbitmq:
+    # rabbitmq的地址，此处连接的是虚拟机的mq
+    host: 192.168.86.168
+    # rabbitmq的端口号
+    port: 5672
+    # rabbitmq管理控制台所创建的虚拟主机
+    virtual-host: /libifu
+    # rabbitmq管理控制台的登录用户名
+    username: libifu
+    # rabbitmq管理控制台的登录密码
+    password: 123456
+    listener:
+      # 解决消费堆积，使用多线程消费
+      # simple，默认，listener容器使用一个额外线程处理消息；direct，listener（监听器）容器直接使用主线程处理消息
+      type: simple
+      simple:
+        # ack自动确认，manual-手动  auto-自动（无异常直接确认，有异常无限重试） none-不重试
+        acknowledge-mode: manual
+        # 能者多劳，每次捕获一条消息
+        prefetch: 1
+        # 避免消息堆积，初始化多个消费者线程（一般是根据电脑的核数来设定）
+        concurrency: 3
